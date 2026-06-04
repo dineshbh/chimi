@@ -1,0 +1,217 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 42 28% 98%;
+    --foreground: 101 40% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 101 40% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 101 40% 10%;
+    
+    /* Brand forest green, tuned from the Access Bhutan logo */
+    --primary: 103 72% 18%;
+    --primary-foreground: 210 40% 98%;
+    
+    --secondary: 98 24% 94%;
+    --secondary-foreground: 103 72% 18%;
+    
+    --muted: 98 19% 93%;
+    --muted-foreground: 98 14% 39%;
+    
+    /* Brand trekker orange, tuned from the Access Bhutan logo */
+    --accent: 28 100% 50%;
+    --accent-foreground: 101 40% 10%;
+    
+    /* Destructive/Secondary Accent: Crimson Red */
+    --destructive: 357 73% 42%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --border: 98 18% 86%;
+    --input: 98 18% 86%;
+    --ring: 103 72% 18%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 103 34% 6%;
+    --foreground: 210 40% 98%;
+    --card: 103 28% 8%;
+    --card-foreground: 210 40% 98%;
+    --popover: 103 28% 8%;
+    --popover-foreground: 210 40% 98%;
+    
+    --primary: 103 60% 24%;
+    --primary-foreground: 210 40% 98%;
+    
+    --secondary: 103 22% 13%;
+    --secondary-foreground: 210 40% 98%;
+    
+    --muted: 103 18% 14%;
+    --muted-foreground: 100 11% 68%;
+    
+    --accent: 29 100% 50%;
+    --accent-foreground: 210 40% 98%;
+    
+    --destructive: 357 73% 42%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --border: 103 16% 17%;
+    --input: 103 16% 17%;
+    --ring: 103 60% 24%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-background;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground/30 rounded-full hover:bg-muted-foreground/50 transition-colors;
+  }
+}
+
+.glass {
+  background: rgba(253, 251, 247, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.dark .glass {
+  background: rgba(9, 22, 10, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.brand-hero-grid {
+  background-image: linear-gradient(rgba(255,255,255,0.075) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.075) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+details[open] summary ~ * {
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+dialog.sheet-right[open] {
+  animation: slideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+dialog::backdrop {
+  background: rgba(11, 26, 48, 0.4);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Custom styles for luxury touch */
+.hero-gradient {
+  background: linear-gradient(to top, hsl(var(--background)) 0%, hsl(var(--primary) / 0.4) 50%, hsl(var(--primary) / 0.8) 100%);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.rich-editor-btn {
+  @apply inline-flex h-9 items-center justify-center rounded-md border border-transparent px-2.5 text-xs font-semibold leading-none text-muted-foreground transition-colors hover:border-border hover:bg-background hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring;
+}
+
+.rich-editor-surface h2 {
+  @apply text-2xl font-bold text-foreground;
+}
+
+.rich-editor-surface h3 {
+  @apply text-xl font-bold text-foreground;
+}
+
+.rich-editor-surface h4 {
+  @apply text-lg font-semibold text-foreground;
+}
+
+.rich-editor-surface ul {
+  @apply list-disc pl-6;
+}
+
+.rich-editor-surface ol {
+  @apply list-decimal pl-6;
+}
+
+.rich-editor-surface blockquote {
+  @apply border-l-4 border-accent bg-muted/40 py-2 pl-4 italic text-muted-foreground;
+}
+
+/* Premium Navigation Styles */
+#main-header {
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#main-header.scrolled {
+  background: rgba(253, 251, 247, 0.9) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 4px 18px -4px rgba(0, 0, 0, 0.04), 0 2px 6px -2px rgba(0, 0, 0, 0.02);
+  border-color: hsl(var(--border) / 0.7);
+}
+
+.dark #main-header.scrolled {
+  background: rgba(9, 22, 10, 0.92) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3), 0 1px 3px -1px rgba(0, 0, 0, 0.1);
+  border-color: hsl(var(--border) / 0.4);
+}
+
+#main-header-container {
+  transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#main-header-container.scrolled {
+  height: 60px !important;
+}
