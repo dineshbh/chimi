@@ -7,6 +7,7 @@ use App\Models\Tour;
 use App\Models\Page;
 use App\Models\ContactInquiry;
 use App\Models\Gallery;
+use App\Models\VisitorLog;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -111,6 +112,52 @@ class AdminController extends Controller
             ['label' => 'Preview site', 'url' => route('home')],
         ];
 
+        // Visitor Analytics Statistics
+        $analytics = [
+            'total_views' => VisitorLog::count(),
+            'unique_visitors' => VisitorLog::distinct('ip_address')->count('ip_address'),
+            'proxy_views' => VisitorLog::where('is_proxy', true)->count(),
+            'views_today' => VisitorLog::whereDate('created_at', Carbon::today())->count(),
+            'unique_today' => VisitorLog::whereDate('created_at', Carbon::today())->distinct('ip_address')->count('ip_address'),
+            
+            // Devices split
+            'devices' => VisitorLog::selectRaw('device_type, count(*) as total')
+                ->groupBy('device_type')
+                ->orderByDesc('total')
+                ->get(),
+                
+            // Browsers split (top 5)
+            'browsers' => VisitorLog::selectRaw('browser, count(*) as total')
+                ->groupBy('browser')
+                ->orderByDesc('total')
+                ->take(5)
+                ->get(),
+
+            // Platforms split (top 5)
+            'platforms' => VisitorLog::selectRaw('platform, count(*) as total')
+                ->groupBy('platform')
+                ->orderByDesc('total')
+                ->take(5)
+                ->get(),
+                
+            // Countries split (top 5)
+            'countries' => VisitorLog::selectRaw('country, count(*) as total')
+                ->groupBy('country')
+                ->orderByDesc('total')
+                ->take(5)
+                ->get(),
+
+            // Top pages (top 5)
+            'pages' => VisitorLog::selectRaw('url_path, count(*) as total')
+                ->groupBy('url_path')
+                ->orderByDesc('total')
+                ->take(5)
+                ->get(),
+
+            // Live stream (latest 15 logs)
+            'live_stream' => VisitorLog::latest()->take(15)->get(),
+        ];
+
         return view('dashboard', compact(
             'toursCount',
             'pagesCount',
@@ -126,7 +173,8 @@ class AdminController extends Controller
             'pageSections',
             'contentHealthChecks',
             'priorityActions',
-            'quickActions'
+            'quickActions',
+            'analytics'
         ));
     }
 

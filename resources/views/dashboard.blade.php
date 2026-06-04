@@ -144,6 +144,215 @@
                 </aside>
             </section>
 
+            <!-- Visitor Traffic & Analytics -->
+            <section class="space-y-6">
+                <div class="border-b border-border pb-3">
+                    <h2 class="text-xl font-extrabold tracking-tight text-foreground">Visitor Traffic Insights</h2>
+                    <p class="text-xs text-muted-foreground">Real-time traffic statistics, geolocation, and device tracking details.</p>
+                </div>
+
+                <!-- Analytics Cards -->
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    <!-- Views Today -->
+                    <article class="rounded-lg border border-border bg-card p-5 shadow-sm">
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Views Today</p>
+                                <p class="mt-3 text-3xl font-bold text-foreground">{{ number_format($analytics['views_today']) }}</p>
+                                <p class="mt-1 text-xs text-muted-foreground">out of {{ number_format($analytics['total_views']) }} total views</p>
+                            </div>
+                            <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-indigo-500/10 text-indigo-500">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                            </span>
+                        </div>
+                    </article>
+
+                    <!-- Unique Visitors Today -->
+                    <article class="rounded-lg border border-border bg-card p-5 shadow-sm">
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Unique Visitors Today</p>
+                                <p class="mt-3 text-3xl font-bold text-foreground">{{ number_format($analytics['unique_today']) }}</p>
+                                <p class="mt-1 text-xs text-muted-foreground">out of {{ number_format($analytics['unique_visitors']) }} total uniques</p>
+                            </div>
+                            <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-sky-500/10 text-sky-500">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                            </span>
+                        </div>
+                    </article>
+
+                    <!-- Proxy Views -->
+                    <article class="rounded-lg border border-border bg-card p-5 shadow-sm">
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Proxy Traffic</p>
+                                <p class="mt-3 text-3xl font-bold text-foreground">{{ number_format($analytics['proxy_views']) }}</p>
+                                <p class="mt-1 text-xs text-muted-foreground">
+                                    @if($analytics['total_views'] > 0)
+                                        {{ round(($analytics['proxy_views'] / $analytics['total_views']) * 100, 1) }}% of total page views
+                                    @else
+                                        0% of total page views
+                                    @endif
+                                </p>
+                            </div>
+                            <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-amber-500/10 text-amber-500">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                            </span>
+                        </div>
+                    </article>
+
+                    <!-- Total Pages / Efficiency -->
+                    <article class="rounded-lg border border-border bg-card p-5 shadow-sm">
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <p class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Views per Visitor</p>
+                                <p class="mt-3 text-3xl font-bold text-foreground">
+                                    @if($analytics['unique_visitors'] > 0)
+                                        {{ round($analytics['total_views'] / $analytics['unique_visitors'], 2) }}
+                                    @else
+                                        0
+                                    @endif
+                                </p>
+                                <p class="mt-1 text-xs text-muted-foreground">Average page engagement depth</p>
+                            </div>
+                            <span class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-emerald-500/10 text-emerald-500">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                            </span>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Breakdown row -->
+                <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+                    <!-- Top Countries -->
+                    <div class="rounded-lg border border-border bg-card p-5 shadow-sm">
+                        <h3 class="text-sm font-bold text-foreground">Top Country Traffic</h3>
+                        <div class="mt-4 space-y-3">
+                            @forelse($analytics['countries'] as $country)
+                                <div class="flex items-center justify-between gap-3 text-xs">
+                                    <div class="flex items-center gap-2">
+                                        <span class="inline-block h-2 w-2 rounded-full bg-indigo-500"></span>
+                                        <span class="font-semibold text-foreground">{{ $country->country ?: 'Unknown' }}</span>
+                                    </div>
+                                    <span class="text-muted-foreground font-bold">{{ number_format($country->total) }} views</span>
+                                </div>
+                            @empty
+                                <p class="py-6 text-center text-xs text-muted-foreground">No country data captured yet.</p>
+                            @endforelse
+                        </div>
+                    </div>
+
+                    <!-- Device splits -->
+                    <div class="rounded-lg border border-border bg-card p-5 shadow-sm">
+                        <h3 class="text-sm font-bold text-foreground">Devices</h3>
+                        <div class="mt-4 space-y-3">
+                            @php
+                                $deviceIcons = [
+                                    'desktop' => 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
+                                    'mobile' => 'M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z',
+                                    'tablet' => 'M12 18h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z',
+                                    'robot' => 'M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z',
+                                ];
+                                $deviceColors = [
+                                    'desktop' => 'text-blue-500 bg-blue-500/10',
+                                    'mobile' => 'text-emerald-500 bg-emerald-500/10',
+                                    'tablet' => 'text-purple-500 bg-purple-500/10',
+                                    'robot' => 'text-amber-500 bg-amber-500/10',
+                                ];
+                            @endphp
+                            @forelse($analytics['devices'] as $device)
+                                <div class="flex items-center justify-between gap-3 text-xs">
+                                    <div class="flex items-center gap-2">
+                                        <span class="inline-flex h-6 w-6 items-center justify-center rounded {{ $deviceColors[$device->device_type] ?? 'text-slate-500 bg-slate-500/10' }}">
+                                            <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $deviceIcons[$device->device_type] ?? 'M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 009 11c0-1.28-.19-2.5-.54-3.648M12 11c0-3.517 1.009-6.799 2.753-9.571m3.44 2.04l-.054.09A13.916 13.916 0 0015 11c0 1.28.19 2.5.54 3.648M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z' }}"/>
+                                            </svg>
+                                        </span>
+                                        <span class="font-semibold capitalize text-foreground">{{ $device->device_type }}</span>
+                                    </div>
+                                    <span class="text-muted-foreground font-bold">{{ number_format($device->total) }} views</span>
+                                </div>
+                            @empty
+                                <p class="py-6 text-center text-xs text-muted-foreground">No device data captured yet.</p>
+                            @endforelse
+                        </div>
+                    </div>
+
+                    <!-- Top Pages -->
+                    <div class="rounded-lg border border-border bg-card p-5 shadow-sm">
+                        <h3 class="text-sm font-bold text-foreground">Top Visited Paths</h3>
+                        <div class="mt-4 space-y-3">
+                            @forelse($analytics['pages'] as $page)
+                                <div class="flex items-center justify-between gap-3 text-xs">
+                                    <span class="truncate font-mono font-semibold text-foreground hover:text-primary dark:hover:text-accent" title="{{ $page->url_path }}">{{ $page->url_path }}</span>
+                                    <span class="text-muted-foreground font-bold shrink-0 font-sans">{{ number_format($page->total) }} views</span>
+                                </div>
+                            @empty
+                                <p class="py-6 text-center text-xs text-muted-foreground">No path traffic recorded yet.</p>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live traffic log stream -->
+                <div class="rounded-lg border border-border bg-card shadow-sm">
+                    <div class="border-b border-border p-5">
+                        <h3 class="text-lg font-bold text-foreground">Live Traffic Stream</h3>
+                        <p class="text-xs text-muted-foreground">Activity logs for the latest visitors browsing the portal.</p>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm">
+                            <thead class="border-b border-border bg-muted/50 text-xs uppercase tracking-wider text-muted-foreground">
+                                <tr>
+                                    <th class="px-5 py-3 font-semibold">IP Address</th>
+                                    <th class="px-5 py-3 font-semibold">Location</th>
+                                    <th class="px-5 py-3 font-semibold">Platform & Agent</th>
+                                    <th class="px-5 py-3 font-semibold">Destination Path</th>
+                                    <th class="px-5 py-3 font-semibold text-right">Activity Time</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-border">
+                                @forelse($analytics['live_stream'] as $log)
+                                    <tr class="align-middle hover:bg-muted/30">
+                                        <td class="px-5 py-4 whitespace-nowrap">
+                                            <div class="flex items-center gap-2">
+                                                <span class="font-mono font-bold text-foreground">{{ $log->ip_address }}</span>
+                                                @if($log->is_proxy)
+                                                    <span class="inline-flex items-center rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-semibold text-amber-600 dark:text-amber-400" title="Proxy connection detected: {{ json_encode($log->proxy_headers) }}">
+                                                        Proxy
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </td>
+                                        <td class="px-5 py-4">
+                                            <p class="font-semibold text-foreground">{{ $log->city ?: 'Unknown' }}</p>
+                                            <p class="text-xs text-muted-foreground">{{ $log->country ?: 'Unknown' }}</p>
+                                        </td>
+                                        <td class="px-5 py-4">
+                                            <p class="font-semibold text-foreground">{{ $log->platform ?: 'Unknown' }} ({{ $log->device_type }})</p>
+                                            <p class="text-xs text-muted-foreground max-w-[200px] truncate" title="{{ $log->user_agent }}">{{ $log->browser ?: 'Unknown' }}</p>
+                                        </td>
+                                        <td class="px-5 py-4">
+                                            <span class="font-mono text-xs text-primary dark:text-accent font-semibold">{{ $log->url_path }}</span>
+                                            @if($log->referer)
+                                                <p class="text-[10px] text-muted-foreground max-w-[220px] truncate" title="{{ $log->referer }}">Ref: {{ $log->referer }}</p>
+                                            @endif
+                                        </td>
+                                        <td class="whitespace-nowrap px-5 py-4 text-right text-xs text-muted-foreground font-medium">
+                                            {{ $log->created_at->diffForHumans() }}
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="px-5 py-10 text-center text-sm font-medium text-muted-foreground">No traffic has been logged yet. Visit client pages to populate this.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
             <section class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
                 @php
                     $managementModules = [
