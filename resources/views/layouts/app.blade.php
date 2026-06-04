@@ -19,15 +19,10 @@
         <!-- Scripts & Styles -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         
-        <!-- Inline Theme Script to prevent flash of theme -->
+        <!-- Inline Theme Script to prevent flash of theme (Disabled dark mode) -->
         <script>
-            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                document.documentElement.classList.add('dark');
-                document.documentElement.classList.remove('light');
-            } else {
-                document.documentElement.classList.add('light');
-                document.documentElement.classList.remove('dark');
-            }
+            document.documentElement.classList.add('light');
+            document.documentElement.classList.remove('dark');
         </script>
 
         <!-- Global Unsplash Image Fallback Script -->
@@ -412,8 +407,8 @@
 
                 <!-- Right: Actions / Controls Column -->
                 <div class="flex items-center justify-end flex-1 gap-3">
-                    <!-- Light/Dark Toggle -->
-                    <button id="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme" class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/40 bg-secondary/50 dark:bg-secondary/20 hover:bg-secondary hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all duration-200 hover:scale-105 shadow-sm">
+                    <!-- Light/Dark Toggle (Disabled) -->
+                    <button id="theme-toggle" type="button" aria-label="Toggle color theme" title="Toggle color theme" class="hidden h-9 w-9 items-center justify-center rounded-full border border-border/40 bg-secondary/50 dark:bg-secondary/20 hover:bg-secondary hover:text-foreground focus:outline-none focus:ring-2 focus:ring-ring text-sm transition-all duration-200 hover:scale-105 shadow-sm">
                         <!-- Dark Icon -->
                         <svg id="theme-toggle-dark-icon" class="hidden w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
                         <!-- Light Icon -->
