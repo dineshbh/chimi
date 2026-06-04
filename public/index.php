@@ -19,9 +19,24 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 
 // Dynamic self-healing database setup for SQLite
 $dbPath = __DIR__.'/../database/database.sqlite';
-if (!file_exists($dbPath)) {
+$needsSetup = true;
+if (file_exists($dbPath)) {
     try {
-        touch($dbPath);
+        $db = new \PDO("sqlite:" . $dbPath);
+        $result = $db->query("SELECT name FROM sqlite_master WHERE type='table' AND name='pages'")->fetch();
+        if ($result) {
+            $needsSetup = false;
+        }
+    } catch (\Throwable $e) {
+        // Setup will trigger
+    }
+}
+
+if ($needsSetup) {
+    try {
+        if (!file_exists($dbPath)) {
+            touch($dbPath);
+        }
         $kernel = $app->make(\Illuminate\Contracts\Console\Kernel::class);
         ob_start();
         $kernel->call('migrate', ['--force' => true]);
