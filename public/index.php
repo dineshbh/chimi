@@ -17,4 +17,20 @@ require __DIR__.'/../vendor/autoload.php';
 /** @var Application $app */
 $app = require_once __DIR__.'/../bootstrap/app.php';
 
+// Dynamic self-healing database setup for SQLite
+$dbPath = __DIR__.'/../database/database.sqlite';
+if (!file_exists($dbPath)) {
+    try {
+        touch($dbPath);
+        $kernel = $app->make(\Illuminate\Contracts\Console\Kernel::class);
+        ob_start();
+        $kernel->call('migrate', ['--force' => true]);
+        $kernel->call('db:seed', ['--force' => true]);
+        ob_end_clean();
+    } catch (\Throwable $e) {
+        error_log('Dynamic database initialization failed: ' . $e->getMessage());
+    }
+}
+
 $app->handleRequest(Request::capture());
+
