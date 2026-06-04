@@ -19,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (config('app.env') !== 'local' || request()->header('X-Forwarded-Proto') === 'https' || str_contains(request()->getHost(), 'railway.app')) {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
+
         view()->composer('layouts.app', function ($view) {
             // Fetch all page destinations
             $destinations = \App\Models\Page::where('type', 'destination')->orderBy('title')->get();
